@@ -1,49 +1,36 @@
 class SearchesController < ApplicationController
-  before_action :set_search, only: %i[ show update destroy ]
-
+ 
   # GET /searches
   def index
     @searches = Search.all
 
     render json: @searches
   end
+  # GET /search statistics
+  def search_stats
+    @ip_searches = Search.group(:ip)
 
-  # GET /searches/1
-  def show
-    render json: @search
+    render json: @ip_searches
   end
+
 
   # POST /searches
   def create
-    @search = Search.new(search_params)
+    @ip_address = request.remote_ip
+    @search = params[:query]
 
+    Search.create(search: @search, ip: @ip_address)
+    
     if @search.save
-      render json: @search, status: :created, location: @search
+      render status: :created
     else
-      render json: @search.errors, status: :unprocessable_entity
+      render status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /searches/1
-  def update
-    if @search.update(search_params)
-      render json: @search
-    else
-      render json: @search.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /searches/1
-  def destroy
-    @search.destroy!
-  end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_search
-      @search = Search.find(params[:id])
-    end
-
+  
     # Only allow a list of trusted parameters through.
     def search_params
       params.require(:search).permit(:search, :ip)
