@@ -9,7 +9,7 @@ class SearchesController < ApplicationController
   # GET /search statistics
  
   def search_stats
-    @search_count = Search.distinct.pluck(:search, :ip, :created_at).map { |search| {search: search, count: Search.where(search: search).count} }
+    @search_count = Search.distinct.pluck(:search, :ip).map { |search| {search: search, count: Search.where(search: search).count} }
        
     @search_summary = @search_count.sort_by { |search| search[:count] }.reverse
     render json: @search_summary
