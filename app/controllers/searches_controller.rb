@@ -7,32 +7,22 @@ class SearchesController < ApplicationController
     render json: @searches
   end
   # GET /search statistics
+ 
   def search_stats
-    @ip_searches = Search.group(:ip)
+    @final_searches = Search.group(:ip).maximum(:created_at)
 
+    @ip_searches = @final_searches.map do |ip, t|
+      Search.find_by(ip: ip, created_at: t).search
+    end
     render json: @ip_searches
   end
-
 
   # POST /searches
   def create
     @ip_address = request.remote_ip
-    @search = params[:query]
-
-    Search.create(search: @search, ip: @ip_address)
+    @search = params[:searchValue]
+    Search.create!(search: @search, ip: @ip_address)
     
-    if @search.save
-      render status: :created
-    else
-      render status: :unprocessable_entity
-    end
+    head :ok
   end
-
-
-  private
-  
-    # Only allow a list of trusted parameters through.
-    def search_params
-      params.require(:search).permit(:search, :ip)
-    end
 end
