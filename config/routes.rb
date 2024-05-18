@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :users
   resources :articles
   resources :searches, only: [:index, :create]
   get "searches/search_stats" => "searches#search_stats"
