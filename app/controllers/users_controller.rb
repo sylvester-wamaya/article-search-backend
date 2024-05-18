@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show update destroy ]
+ 
 
   # GET /users
   def index
@@ -15,7 +15,10 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
+    @ip_address = request.remote_ip
+    
     @user = User.new(user_params)
+   
 
     if @user.save
       render json: @user, status: :created, location: @user
