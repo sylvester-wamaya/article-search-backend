@@ -9,12 +9,11 @@ class SearchesController < ApplicationController
   # GET /search statistics
  
   def search_stats
-    @final_searches = Search.group(:ip).maximum(:created_at)
-
-    @ip_searches = @final_searches.map do |ip, t|
-      Search.find_by(ip: ip, created_at: t).search
-    end
-    render json: @ip_searches
+    @search_count = Search.distinct.pluck(:search, :ip, :created_at).map { |search| {search: search, count: Search.where(search: search).count} }
+       
+    @search_summary = @search_count.sort_by { |search| search[:count] }.reverse
+    render json: @search_summary
+  
   end
 
   # POST /searches
