@@ -2,6 +2,7 @@ class SearchesController < ApplicationController
  
   # GET /searches
   def index
+    
     @searches = Search.all
 
     render json: @searches
@@ -9,7 +10,8 @@ class SearchesController < ApplicationController
   # GET /search statistics
  
   def search_stats
-    @search_count = Search.distinct.pluck(:search, :ip).map { |search| {search: search, count: Search.where(search: search).count} }
+    @user = User.find_by(ip_address: request.remote_ip) 
+    @search_count = @user.searches.distinct.pluck(:search, :ip).map { |search| {search: search, count: Search.where(search: search).count} }
        
     @search_summary = @search_count.sort_by { |search| search[:count] }.reverse
     render json: @search_summary
@@ -18,10 +20,27 @@ class SearchesController < ApplicationController
 
   # POST /searches
   def create
-    @ip_address = request.remote_ip
-    @search = params[:searchValue]
-    Search.create!(search: @search, ip: @ip_address)
-    
-    head :ok
+
+  @ip_address = request.remote_ip
+  @user = User.find_by(ip_address: @ip_address) || User.create!(username: @ip_address , ip_address: @ip_address, password: "password")
+  @search = params[:searchValue]
+
+  # Check if the search value already exists in the database
+  @existing_search = @user.searches.where("search LIKE ?", "%#{@search}%").first
+
+  if @existing_search.present? && Search.find_by(search: @search)
+    # Create a new Search record only if it doesn't exist
+    Search.create!(search: @search, ip: @ip_address, user_id: @user.id)
   end
+  if @existing_search.nil?
+    # Create a new Search record only if it doesn't exist
+    Search.create!(search: @search, ip: @ip_address, user_id: @user.id)
+  end
+  
+
+  head :ok
+  end
+
+  
+
 end
