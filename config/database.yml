@@ -24,6 +24,7 @@ development:
   <<: *default
   database: article_search_backend_development
   host: localhost
+  username: postgres
   password: <%= ENV["ARTICLE_SEARCH_BACKEND_DATABASE_PASSWORD"] %>
 
   # The specified database role being used to connect to PostgreSQL.
@@ -59,6 +60,7 @@ development:
 test:
   <<: *default
   database: article_search_backend_test
+  host: localhost
   username: postgres
   password: <%= ENV["ARTICLE_SEARCH_BACKEND_DATABASE_PASSWORD"] %>
 
@@ -85,5 +87,8 @@ test:
 production:
   <<: *default
   database: article_search_backend_production
-  username: article_search_backend
+  username: postgres
   password: <%= ENV["ARTICLE_SEARCH_BACKEND_DATABASE_PASSWORD"] %>
+  url: <%= ENV["ARTICLE_SEARCH_BACKEND_DATABASE_URL"] %>
+
+  
