@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Searches", type: :request do
   describe "POST /searches" do
     it "creates a new search" do
-      post searches_path, params: { search: 'Fashion' }, as: :json
+      post searches_path, params: { searchValue: 'Fashion' }, as: :json
       expect(response).to have_http_status(:ok)
     end
 
