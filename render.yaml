@@ -1,12 +1,12 @@
 databases:
-  - name: aricle-search
-    databaseName: aricle-search
+  - name: article_search_backend
+    databaseName: article_search_backend
     user: aricle-search
     plan: free
 
 services:
   - type: web
-    name: aricle-search
+    name: article_search_backend
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
@@ -15,7 +15,7 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: aricle-search
+          name: article_search_backend
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
