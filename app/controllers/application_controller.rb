@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-    protect_from_forgery
+   
 
     before_action :set_cors_headers
   
