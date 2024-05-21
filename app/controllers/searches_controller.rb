@@ -1,9 +1,13 @@
 class SearchesController < ApplicationController
  
-
+    # GET /searches
+    def index
+      @searches = Search.all
+      render json: @searches
+    end
 
     # GET /search statistics
-    def index
+    def search_stats
       @user = User.find_by(ip_address: request.remote_ip) 
      
       
