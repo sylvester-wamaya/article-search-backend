@@ -67,10 +67,9 @@
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 
-- [Live Demo Link](https://guarded-badlands-30811-5ee0ad011cc5.herokuapp.com/searches)
+- [Live Demo Link](https://guarded-badlands-30811-5ee0ad011cc5.herokuapp.com/)
  <b>Routes</b>
  - /searches
- - /search_stats
  - /users
  - /articles
 
