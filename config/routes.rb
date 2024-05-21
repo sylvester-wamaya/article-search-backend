@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :users
   resources :articles
-  resources :searches, only: [:index, :create]
+  resources :searches
   get "searches/stats" => "searches#search_stats"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -10,5 +10,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+   root "searches#index"
 end
