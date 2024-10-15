@@ -25,7 +25,7 @@ development:
   database: article_search_backend_development
   host: localhost
   username: postgres
-  password: Wa.ma.84
+  password: 
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -62,7 +62,7 @@ test:
   database: article_search_backend_test
   host: localhost
   username: postgres
-  password: Wa.ma.84
+  password: 
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
